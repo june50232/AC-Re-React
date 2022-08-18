@@ -18,15 +18,15 @@ jobs:
       run: docker build . --file Dockerfile.prod --tag my-image-name:$(date +%s)
 
     - run: echo $GITHUB_SHA >> public/index.html
-    - uses: maxheld83/ghpages@v0.3.0
-      env:
-        BUILD_DIR: public/
-        GH_PAT: ${{ secrets.ACCESS_TOKEN }}
+    # - uses: maxheld83/ghpages@v0.3.0
+    #   env:
+    #     BUILD_DIR: public/
+    #     GH_PAT: ${{ secrets.ACCESS_TOKEN }}
 
-    # - name: Deploy to GitHub Pages
-    #   uses: JamesIves/github-pages-deploy-action@v4.4.0
-    #   with:
-    #     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-    #     BRANCH: gh-pages
-    #     FOLDER: public/
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.4.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: public/
     #     BUILD_SCRIPT: docker build . --file Dockerfile.prod --tag my-image-name:$(date +%s)
