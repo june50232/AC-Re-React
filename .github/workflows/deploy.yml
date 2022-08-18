@@ -29,4 +29,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
         FOLDER: public/
-    #     BUILD_SCRIPT: docker build . --file Dockerfile.prod --tag my-image-name:$(date +%s)
+        BUILD_SCRIPT: docker build . --file Dockerfile.prod --tag my-image-name:$(date +%s)
