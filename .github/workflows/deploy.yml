@@ -7,20 +7,16 @@ on:
     branches: [ "master" ]
 
 jobs:
-
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile.prod --tag my-image-name:$(date +%s)
+    - name: Checkout
+      uses: actions/checkout@master
 
-    - name: Deploy
+    - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@3.6.1
       with:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: out
-        CLEAN: true
+        FOLDER: build
+        BUILD_SCRIPT: docker build . --file Dockerfile.prod --tag my-image-name:$(date +%s)
