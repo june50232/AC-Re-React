@@ -1,6 +1,5 @@
 {
-  "private": true,
-  "homepage": "https://june50232.github.io/AC-Re-React ",
+  "homepage": "http://www.dev.ac-re.com/",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export"
