@@ -2,10 +2,11 @@
   "homepage": "https://june50232.github.io/AC-Re-React/",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export"
+    "build": "next build && next export",
+    "deploy": "next build && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && git subtree push --prefix out origin gh-pages"
   },
   "dependencies": {
-    "next": "^12.2.2",
+    "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
