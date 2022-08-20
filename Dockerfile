@@ -1,27 +1,22 @@
-# Dockerfile
+FROM node:lts-alpine
 
-# Use node alpine as it's a small node image
-FROM node:alpine
+ENV NODE_ENV production
+ENV NPM_CONFIG_LOGLEVEL warn
 
-# Create the directory on the node image 
-# where our Next.js app will live
-RUN mkdir -p /app
+RUN mkdir /home/node/app/ && chown -R node:node /home/node/app
 
-# Set /app as the working directory
-WORKDIR /app
+WORKDIR /home/node/app
 
-# Copy package.json and package-lock.json
-# to the /app working directory
-COPY package*.json /app
+COPY package.json package.json
+COPY package-lock.json package-lock.json
 
-# Install dependencies in /app
-RUN yarn install
+USER node
 
-# Copy the rest of our Next.js folder into /app
-COPY . /app
+RUN npm install --production
 
-# Ensure port 3000 is accessible to our system
+COPY --chown=node:node .next .next
+COPY --chown=node:node public public
+
 EXPOSE 3000
 
-# Run yarn dev, as we would via the command line 
-CMD ["yarn", "dev"]
+CMD npm start
