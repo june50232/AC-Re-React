@@ -1,36 +1,31 @@
-name: Build & Publish
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - "**"             # all branches
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
-  next-build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-        strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-      - run: npm ci            #install dependencies
-      - run: npm run build
-      - name: Upload Next build          # Upload the artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: |
-            .next
-            public
-          retention-days: 7         # artifact retention duration, can be upto 30 days
-      - name: Deploy GH Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
-          publish_dir: ./public
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+    - run: echo $GITHUB_SHA >> public/index.html
+    # - uses: maxheld83/ghpages@v0.3.0
+    #   env:
+    #     BUILD_DIR: public/
+    #     GH_PAT: ${{ secrets.ACCESS_TOKEN }}
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.4.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: public/
