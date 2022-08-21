@@ -25,6 +25,8 @@ RUN yarn build
 # If using npm comment out above and use below instead
 # RUN npm run build
 
+RUN echo "out directory: " > /app/out
+
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
@@ -37,7 +39,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # You only need to copy next.config.js if you are NOT using the default configuration
-# COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 
