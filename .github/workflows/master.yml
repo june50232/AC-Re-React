@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile.prod --tag myimage:latest
+        run: docker build . --file Dockerfile.local --tag myimage:latest
       -
         name: Build and export
         uses: docker/build-push-action@v3
