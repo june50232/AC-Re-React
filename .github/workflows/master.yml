@@ -5,29 +5,18 @@ on:
     branches: [ "master" ]
 
 jobs:
-  deploy:                                         # a free machine-readable name for this job
-    runs-on: ubuntu-latest                        # specify the base operating system
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo content               # fetch the contents of the repository
-        uses: actions/checkout@v2
-      - name: Prepare build environment
-        run: |                                    # multiple Bash commands follow
-          mkdir -p build
-          touch build/.nojekyll
-    # - uses: maxheld83/ghpages@v0.3.0
-    #   env:
-    #     BUILD_DIR: public/
-    #     GH_PAT: ${{ secrets.ACCESS_TOKEN }}
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
 
-      - name: Run pandoc
-        uses: docker://pandoc/core:2.12           # Always specify a version!
+      - name: Install rsync 📚
+        run: |
+          apt-get update && apt-get install -y rsync
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          args: >-                                # multi-line argument
-            --standalone
-            --output=build/index.html
-            README.md
-      - name: Deploy on github pages              # Use a third-party plugin to upload the content
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        with:
-          branch: gh-pages
-          folder: build
+          folder: build # The folder the action should deploy.
