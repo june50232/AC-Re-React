@@ -11,12 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag myimage:latest
+        run: docker build . --file Dockerfile
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build/app # The folder the action should deploy.
+          folder: build # The folder the action should deploy.
           token: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           BUILD_SCRIPT: npm run build
