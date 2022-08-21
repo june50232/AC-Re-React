@@ -17,13 +17,13 @@ jobs:
         with:
           context: .
           load: true
-          tags: ${{ env.TEST_TAG }}
+          tags: myimage:latest
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.ACCESS_TOKEN }}
 
       - name: Test
         run: |
-          docker run --rm ${{ env.TEST_TAG }}
+          docker run --rm myimage:latest
 
       -
         name: Build and export
@@ -32,6 +32,8 @@ jobs:
           context: .
           tags: myimage:latest
           outputs: type=local,dest=/build
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.ACCESS_TOKEN }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
