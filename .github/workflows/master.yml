@@ -11,16 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . --file Dockerfile.local --tag myimage:latest
-      -
-        name: Build and export
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          tags: myimage:latest
-          outputs: type=local,dest=build
-          secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.ACCESS_TOKEN }}
+        run: docker build . --file Dockerfile --tag myimage:latest
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
