@@ -1,0 +1,14 @@
+{
+  "homepage": "https://june50232.github.io/AC-Re-React/",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "next": "^12.2.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "gh-pages": "^4.0.0"
+  }
+}
