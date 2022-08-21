@@ -5,26 +5,29 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  deploy:                                         # a free machine-readable name for this job
+    runs-on: ubuntu-latest                        # specify the base operating system
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-
-    - run: echo $GITHUB_SHA >> public/index.html
+      - name: Checkout repo content               # fetch the contents of the repository
+        uses: actions/checkout@v2
+      - name: Prepare build environment
+        run: |                                    # multiple Bash commands follow
+          mkdir -p build
+          touch build/.nojekyll
     # - uses: maxheld83/ghpages@v0.3.0
     #   env:
     #     BUILD_DIR: public/
     #     GH_PAT: ${{ secrets.ACCESS_TOKEN }}
 
-    - name: Deploy with gh-pages
-      run: |
-        git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-        docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-        npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
-      env:
-        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: Run pandoc
+        uses: docker://pandoc/core:2.12           # Always specify a version!
+        with:
+          args: >-                                # multi-line argument
+            --standalone
+            --output=build/index.html
+            README.md
+      - name: Deploy on github pages              # Use a third-party plugin to upload the content
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: build
