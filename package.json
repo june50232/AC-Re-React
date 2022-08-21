@@ -2,8 +2,7 @@
   "homepage": "https://june50232.github.io/AC-Re-React/",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
-    "deploy": "gh-pages -d build"
+    "build": "next build && next export"
   },
   "dependencies": {
     "next": "^12.2.2",
