@@ -1,5 +1,5 @@
 {
-  "homepage": "https://june50232.github.io/AC-Re-React/",
+  "homepage": "https://june50232.github.io/docterized-next-typescript-tailwind-ghPage-starter/",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export"
