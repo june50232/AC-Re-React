@@ -8,4 +8,4 @@
 
 ### Dockerize NextJs Application on Github Pages through Github Action
 
-1. Necessary files contain `Dockerfile` and `.github/workflows/master.yml`. Also package.json need to add `"build": "next build && next export"`, `"homepage": "{{url}}",`, `"gh-pages": "^4.0.0"`
+1. Necessary files contain `Dockerfile` and `.github/workflows/master.yml`. Also package.json need to add `"build": "next build && next export"` and `"homepage": "{{url}}",`.
